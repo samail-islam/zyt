@@ -1,6 +1,6 @@
 #!/bin/bash
 # Configuration
-COMMAND_NAME="zxt" # The name users will type in terminal 
+COMMAND_NAME="zyt" 
 PY_FILE="$(pwd)/main.py" 
 echo "Setting up $COMMAND_NAME for Unix-like system..." 
 # 1. Validation
