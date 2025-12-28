@@ -76,7 +76,8 @@ Optional but recommended:
 		```
   This will automatically setup the `zyt` command to work on any directory and delete the bash script.
 
-   >`zyt` hasn't yet tested on Windows,if any error   occurs, please notify by creating an issue or start a pull request.
+>[!NOTE]
+>`zyt` hasn't yet tested on Windows, if any error   occurs, please notify by creating an issue or start a pull request.
      
      
 ## Usage
@@ -94,22 +95,49 @@ zyt <command> <username/repository>
 
   - delete a repository
     ```bash
-    zyt <command> <username/repository>
+    zyt un <username/repository>
     ```
     - Removes the local directory after confirmation
 
-  - update a repository
+  - update a repository (re-clone)
     ```bash
-    zyt <command> <username/repository>
+    zyt up <username/repository>
     ```
     - Deletes old local copy
     - Clones a fresh copy
     - Useful for corrupted or outdated directories
-    - works if on the 
-```bash
-zyt <command> <username/repository>
-``` ```bash
-zyt <command> <username/repository>
-```
+    - works if in the directory that contains the repo's directory
+  - fork a repository 
+    ```bash
+    zyt f <username/repository>
+    ```
+    Automatically:
+    - Forks the repository
+    - Clones your fork
+    - Sets:
+      - `origin` → your fork
+      - `upstream` → original repository
+  - sync fork with upstream 
+    ```bash
+    zyt sync <username/repository>
+    ```
+    Performs:
+    - `git fetch upstream`
+    - Attempts `git rebase upstream/<branch>`
+    - Falls back to `git merge` if rebase fails
+
+## How it works
+
+- When you run `setup.sh` or `setup.ps1`, the script automatically sets the `main.py` to the path and sets `zyt` as command.
+
+
+
+
   
+
+
+
+
+
+
   
