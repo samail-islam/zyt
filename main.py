@@ -25,9 +25,11 @@ def update(repo, url):
     if os.path.isdir(repo_name):
         consent = input(f"Are you sure you want to update {repo}?\n (updating will delete all old data)? (Y/n): ")
         if consent == "Y":
-            trash_dir = repo_name + "_trash"
+            #rename directory before cloning to avoid conflict 
+            trash_dir = repo_name + "_trash" 
             os.rename(repo_name, trash_dir)
             subprocess.run(["git", "clone", url])
+            #delete directory if cloning successful 
             shutil.rmtree(trash_dir)
         else:
             print("Cancelled")
@@ -95,7 +97,7 @@ def fork(repo):
 # ---- Command map ----
 COMMANDS = {
     "in": lambda repo, url: install(url),
-    "un": lambda repo, url: uninstall(repo.split("/")[1]),
+    "un": lambda repo, url: uninstall(repo),
     "up": lambda repo, url: update(repo, url),
     "f":  lambda repo, url: fork(repo),
     "sync": lambda repo, url: sync(repo)
@@ -116,10 +118,10 @@ def main():
         print(
             """Usage:
               zyt in <username/reponame>  - clone a repo
-              zyt un <username/reponame>  - delete a cloned repo
+              zyt un <reponame>           - delete a cloned repo
               zyt up <username/reponame>  - update a cloned repo
-              zyt f <username/reponame>  - fork a repo
-              zyt sync  <username/reponame> - to fetch+ rebase upstream"""
+              zyt f <username/reponame>   - fork a repo
+              zyt sync <username/reponame>- to fetch+ rebase upstream"""
               )
         sys.exit(1)
 
