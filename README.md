@@ -1,9 +1,9 @@
-# zyt 🧩  
-*A simple GitHub repository manager from the terminal*
+# zyt   
+*A simple GitHub repository manager and git command wrapper from the terminal*
 
 ---
 
-## About
+## 📖 About
 
 **zyt** is a lightweight command-line tool that simplifies common GitHub workflows such as cloning, forking, updating, syncing, and managing repositories.  
 It acts as a small wrapper around `git`, `ssh`, and (optionally) the GitHub CLI (`gh`) to reduce repetitive commands and decision-making.
@@ -12,11 +12,11 @@ The goal of **zyt** is to let you work with repositories using **short, memorabl
 
 ---
 
-## The Problem It Solves
+## 🔧 The Problem It Solves
 
 Working with GitHub repositories often involves:
 
-- Remembering long `git` commands
+- Remembering and typing long `git` commands
 - Manually setting `upstream` for forks
 - Handling SSH vs HTTPS vs GitHub CLI
 - Keeping forks up-to-date with upstream
@@ -31,7 +31,7 @@ Working with GitHub repositories often involves:
 
 ---
 
-## Features
+## ✨ Features
 
 - 📥 Clone public and private repositories
 - 🍴 Fork repositories with upstream automatically configured
@@ -43,7 +43,7 @@ Working with GitHub repositories often involves:
 
 ---
 
-## Requirements
+## 🛠 Requirements
 
 - Python **3.7+**
 - `git`
@@ -57,7 +57,7 @@ Optional but recommended:
   ```bash
   gh auth login
 
-## Getting started
+## 🚀 Getting started
 
 - Clone this  repository:
 	```bash
@@ -72,7 +72,7 @@ Optional but recommended:
 	
 	- For powershell (Windows):
 		```powershell
-		
+		.\setup.ps1 
 		```
   This will automatically setup the `zyt` command to work on any directory and delete the bash script.
 
@@ -80,7 +80,7 @@ Optional but recommended:
 >`zyt` hasn't yet tested on Windows, if any error   occurs, please notify by creating an issue or start a pull request.
      
      
-## Usage
+## 🔥 Usage
 
 ```bash
 zyt <command> <username/repository>
@@ -126,18 +126,18 @@ zyt <command> <username/repository>
     - Attempts `git rebase upstream/<branch>`
     - Falls back to `git merge` if rebase fails
 
-## How it works
+## ⚙ How it works
 
-- When you run `setup.sh` or `setup.ps1`, the script automatically sets the `main.py` to the path and sets `zyt` as command.
+- When you run `setup.sh` or `setup.ps1`, the script automatically sets the hard link of `main.py` to the path and sets `zyt` as command.
+- By setting a hard link to the path, it makes zyt workable on any directory.
+- The program in `main.py` takes the arguments and runs the command needed using `subprocess.run` accordingly.
 
+## 💻 Updating zyt
+- Zyt would get updates in future with new features.
+- When new versions of zyt would be available, it can be updated by `git pull`.
+  ```bash
+    cd zyt
+    git pull
+  ```
+## 📄 License
 
-
-
-  
-
-
-
-
-
-
-  
