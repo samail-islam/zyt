@@ -139,5 +139,9 @@ zyt <command> <username/repository>
     cd zyt
     git pull
   ```
+- As the hard link is set to the path instead of moving the `main.py` file, the setup scripts are not needed to be run after update.
+
 ## 📄 License
+
+**Zyt** is licensed under the General Public License v3.
 
