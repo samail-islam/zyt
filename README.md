@@ -27,7 +27,7 @@ Working with GitHub repositories often involves:
 - Auto-detecting authentication (GitHub CLI → SSH → HTTPS)
 - Automatically configuring `origin` and `upstream`
 - Providing one-command workflows for common tasks
-- Reducing setup friction for contributors
+
 
 ---
 
@@ -143,5 +143,5 @@ zyt <command> <username/repository>
 
 ## 📄 License
 
-**Zyt** is licensed under the General Public License v3.
+**Zyt** is licensed under the *GNU General Public License v3*
 
