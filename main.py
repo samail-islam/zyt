@@ -35,6 +35,35 @@ def update(repo, url):
             print("Cancelled")
     else:
         print(f"No directory named {repo_name}")
+def detect_auth_method():
+    """
+    Returns: 'gh', 'ssh', or 'https'
+    """
+    def has_cmd(cmd):
+        return shutil.which(cmd) is not None
+    if has_cmd("gh"):
+        try:
+            subprocess.run(
+                ["gh", "auth", "status"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=True
+            )
+            return "gh"
+        except subprocess.CalledProcessError:
+            pass
+    try:
+        subprocess.run(
+            ["ssh", "-T", "git@github.com"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            timeout=5
+        )
+        return "ssh"
+    except Exception:
+        pass
+    
+    return "https"
 
 def sync(repo):
     repo_name = repo.split("/")[1]
@@ -59,39 +88,27 @@ def sync(repo):
 
 def fork(repo):
     user, repo_name = repo.split("/")
+    method = detect_auth_method()
 
-    def has_cmd(cmd):
-        return shutil.which(cmd) is not None
-
-    def ssh_available():
-        try:
-            subprocess.run(["ssh", "-T", "git@github.com"],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=5)
-            return True
-        except Exception:
-            return False
-
-    # Case 1: GitHub CLI available → best option
-    if has_cmd("gh"):
+    if method == "gh":
         subprocess.run(["gh", "repo", "fork", repo, "--clone"])
         os.chdir(repo_name)
-        subprocess.run(["git", "remote", "add", "upstream", f"https://github.com/{user}/{repo_name}.git"]
-)
+        subprocess.run([
+            "git", "remote", "add",
+            "upstream",
+            f"https://github.com/{user}/{repo_name}.git"
+        ])
         return
 
-    # Case 2: SSH key auth available (no gh)
-    if ssh_available():
-        clone_url = f"git@github.com:{user}/{repo_name}.git"
-        subprocess.run(["git", "clone", clone_url])
-        os.chdir(repo_name)
-        subprocess.run(["git", "remote", "add", "upstream", clone_url])
-        return
+    # No gh → clone original + set upstream
+    if method == "ssh":
+        url = f"git@github.com:{user}/{repo_name}.git"
+    else:
+        url = f"https://github.com/{user}/{repo_name}.git"
 
-    # Case 3: Fallback to HTTPS
-    clone_url = f"https://github.com/{user}/{repo_name}.git"
-    subprocess.run(["git", "clone", clone_url])
+    subprocess.run(["git", "clone", url])
     os.chdir(repo_name)
-    subprocess.run(["git", "remote", "add", "upstream", clone_url])
-
+    subprocess.run(["git", "remote", "add", "upstream", url])
 
 
 # ---- Command map ----
